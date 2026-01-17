@@ -15,6 +15,23 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState(null);
 
+  // تحميل بيانات المستخدم من localStorage عند التحميل
+  React.useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      try {
+        const userData = JSON.parse(savedUser);
+        setUser(userData);
+        // تحديد المشرف
+        if (userData.email === 'M75@gmail.com') {
+          setIsAdmin(true);
+        }
+      } catch (e) {
+        console.error('خطأ في تحميل بيانات المستخدم', e);
+      }
+    }
+  }, []);
+
   return (
     <Router>
       <div className="min-h-screen bg-background text-foreground flex flex-col">

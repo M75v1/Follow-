@@ -23,16 +23,25 @@ export default function Order({ user }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user) {
-      setEmail(user.email);
-      setUsername(user.instagramUsername || '');
+    // تحميل بيانات المستخدم من localStorage أو props
+    const savedUser = localStorage.getItem('user');
+    const currentUser = savedUser ? JSON.parse(savedUser) : initialUser;
+    
+    if (currentUser) {
+      setUser(currentUser);
+      setEmail(currentUser.email);
+      setUsername(currentUser.instagramUsername || '');
     }
-  }, [user]);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!user) {
+    // تحميل بيانات المستخدم الحالية
+    const savedUser = localStorage.getItem('user');
+    const currentUser = savedUser ? JSON.parse(savedUser) : user;
+    
+    if (!currentUser) {
       alert('يجب تسجيل الدخول أولاً');
       navigate('/account');
       return;
@@ -53,7 +62,7 @@ export default function Order({ user }) {
     const pkg = PACKAGES.find(p => p.id === selectedPackage);
     const order = {
       id: Date.now(),
-      userId: user.id,
+      userId: currentUser.id,
       username: username,
       followers: pkg.followers,
       price: pkg.price,

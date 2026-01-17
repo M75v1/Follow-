@@ -34,7 +34,7 @@ export default function Navbar({ user, setUser, isAdmin, setIsAdmin }) {
               )}
               <div className="relative">
                 <button onClick={() => setShowMenu(!showMenu)} className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg">
-                  {user.username}
+                  {user.email?.split('@')[0]}
                 </button>
                 {showMenu && (
                   <div className="absolute right-0 mt-2 bg-card border border-border rounded-lg shadow-lg overflow-hidden">

@@ -10,6 +10,19 @@ export default function Account({ user, setUser }) {
   const [instagramUsername, setInstagramUsername] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // تحميل بيانات المستخدم من localStorage عند التحميل
+  React.useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      try {
+        const userData = JSON.parse(savedUser);
+        setUser(userData);
+      } catch (e) {
+        console.error('خطأ في تحميل بيانات المستخدم', e);
+      }
+    }
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
